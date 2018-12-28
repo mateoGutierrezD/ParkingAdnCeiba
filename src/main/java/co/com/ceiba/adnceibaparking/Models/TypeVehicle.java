@@ -10,12 +10,10 @@ public class TypeVehicle {
     private String id;
     private String code;
     private String type;
-    private int maxCapacityVehicles;
 
-    public TypeVehicle(String code, String type, int maxCapacityVehicles) {
+    public TypeVehicle(String code, String type) {
         this.code = code;
         this.type = type;
-        this.maxCapacityVehicles = maxCapacityVehicles;
     }
 
     public TypeVehicle() {
@@ -27,9 +25,5 @@ public class TypeVehicle {
 
     public String getType() {
         return type;
-    }
-
-    public int getMaxCapacityVehicles() {
-        return maxCapacityVehicles;
     }
 }

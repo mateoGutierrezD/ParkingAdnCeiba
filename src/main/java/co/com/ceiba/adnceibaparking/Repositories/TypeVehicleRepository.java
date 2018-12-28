@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TypeVehicleRepository extends MongoRepository<TypeVehicle, String > {
 
-    public void deleteByCode(String code);
+    public TypeVehicle findByCode(String code);
 }
