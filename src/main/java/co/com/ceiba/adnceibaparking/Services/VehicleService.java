@@ -21,6 +21,8 @@ public class VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
 
+    double value = 0;
+
     public Response<List<Vehicle>> getAllVehicles() {
         List<Vehicle> vehicleList = vehicleRepository.findAll();
 
@@ -88,36 +90,77 @@ public class VehicleService {
     }
 
     public Response<Object> deleteVehicle(String plate){
+        double valueToPay = 0;
         Vehicle vehicle = this.vehicleRepository.findByPlate(plate);
         if(vehicle != null){
             String plateFound = vehicle.getPlate();
             if(plateFound.equals(plate)) {
 
-                double valueToPay = calculatePaymentBill(vehicle);
+                switch (vehicle.getTypeVehicleDescription()) {
+                    case Constants.CAR :
+                        valueToPay = calculateCarPaymentBill(vehicle);
+                        break;
+                    case Constants.MOTORCYCLE :
+                        valueToPay = calculateMotorcyclePaymentBill(vehicle);
+                }
+
                 boolean vehicleIshighCylinder = validateCylinder(vehicle.getCylinder());
 
                 if(vehicleIshighCylinder) {
                     valueToPay = valueToPay + Constants.MOTORCYCLE_EXTRA_PRICE;
                 }
 
-                this.vehicleRepository.delete(vehicle);
-                return new Response<Object>(Constants.VEHICLE_DELETED);
+               // this.vehicleRepository.delete(vehicle);
+                return new Response<Object>(Constants.VEHICLE_DELETED, "Costo del parqueadero:" + (valueToPay));
             }
         }
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
     }
 
-    public double calculatePaymentBill(Vehicle vehicle){
+    public double calculateCarPaymentBill(Vehicle vehicle){
         String currentDate = DateConverter.getCurrentDate();
 
         Date today = DateConverter.convertStringToDate(currentDate);
         Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
 
-        if(today.getTime() - dateIn.getTime() > 9) {
+        if(today.getTime() - dateIn.getTime() > 9 && today.getTime() - dateIn.getTime() < 25 ) {
+            value = Constants.CAR_DAY_PRICE;
 
+        } else if (today.getTime() - dateIn.getTime() > 24)
+        {
+            long totalDays = today.getTime() - dateIn.getTime();
+            totalDays = totalDays / 24;
+            value = Constants.CAR_DAY_PRICE * totalDays;
+
+        } else {
+            long totalHours = today.getTime() - dateIn.getTime();
+            value = Constants.CAR_HOUR_PRICE * totalHours;
         }
 
-        return 2;
+        return value;
+    }
+
+    public double calculateMotorcyclePaymentBill(Vehicle vehicle){
+        String currentDate = DateConverter.getCurrentDate();
+
+        Date today = DateConverter.convertStringToDate(currentDate);
+        Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
+
+        if(today.getTime() - dateIn.getTime() > 9 && today.getTime() - dateIn.getTime() < 25 ) {
+            value = Constants.MOTORCYCLE_DAY_PRICE;
+
+        } else if (today.getTime() - dateIn.getTime() > 24)
+        {
+            long totalDays = today.getTime() - dateIn.getTime();
+            totalDays = totalDays / 24;
+            value = Constants.MOTORCYCLE_DAY_PRICE * totalDays;
+
+        } else {
+            long totalHours = today.getTime() - dateIn.getTime();
+            value = Constants.MOTORCYCLE_HOUR_PRICE * totalHours;
+        }
+
+        return value;
     }
 
     public boolean validateCylinder(int cylinder) {
