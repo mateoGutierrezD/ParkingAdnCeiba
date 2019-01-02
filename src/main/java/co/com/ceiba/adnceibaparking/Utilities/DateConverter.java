@@ -10,9 +10,9 @@ import java.util.TimeZone;
 
 public class DateConverter {
 
-    public static String getCurrentDateAndTime() {
+    public static String getCurrentDate() {
         Date date = new Date();
-        String stringDateFormat = Constants.DATE_FORMAT_ddMMyyy;
+        String stringDateFormat = Constants.DATE_FORMAT;
         DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
 
         return dateFormat.format(date);
@@ -21,5 +21,22 @@ public class DateConverter {
     public static int getCurrentDayOfWeek() {
         Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
         return  localCalendar.get(Calendar.DAY_OF_WEEK);
+    }
+
+    public static String convertDateToString(Date date) {
+        String stringDateFormat = Constants.DATE_FORMAT;
+        DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
+        return dateFormat.format(date);
+    }
+
+    public static Date convertStringToDate(String date) {
+        Date dateParsed = null;
+        try {
+            String stringDateFormat = Constants.DATE_FORMAT;
+            DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
+            dateParsed   = dateFormat.parse(date);
+        } catch (java.text.ParseException e) {
+        }
+        return dateParsed;
     }
 }

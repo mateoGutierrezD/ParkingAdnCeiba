@@ -42,8 +42,4 @@ public class TypeVehicleService {
         }
         return new Response<Object>(Constants.VEHICLE_TYPE_NOT_EXISTS);
     }
-
-    public void generatePayment() {
-
-    }
 }

@@ -12,6 +12,7 @@ import co.com.ceiba.adnceibaparking.Utilities.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,7 +47,7 @@ public class VehicleService {
             throw new VehicleRegisteredPreviously();
         }
 
-        vehicle.setDateIn(DateConverter.getCurrentDateAndTime());
+        vehicle.setDateIn(DateConverter.getCurrentDate());
         this.vehicleRepository.insert(vehicle);
         return new Response<List<Vehicle>>(Constants.SUCCESS);
     }
@@ -91,10 +92,41 @@ public class VehicleService {
         if(vehicle != null){
             String plateFound = vehicle.getPlate();
             if(plateFound.equals(plate)) {
+
+                double valueToPay = calculatePaymentBill(vehicle);
+                boolean vehicleIshighCylinder = validateCylinder(vehicle.getCylinder());
+
+                if(vehicleIshighCylinder) {
+                    valueToPay = valueToPay + Constants.MOTORCYCLE_EXTRA_PRICE;
+                }
+
                 this.vehicleRepository.delete(vehicle);
                 return new Response<Object>(Constants.VEHICLE_DELETED);
             }
         }
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
     }
+
+    public double calculatePaymentBill(Vehicle vehicle){
+        String currentDate = DateConverter.getCurrentDate();
+
+        Date today = DateConverter.convertStringToDate(currentDate);
+        Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
+
+        if(today.getTime() - dateIn.getTime() > 9) {
+
+        }
+
+        return 2;
+    }
+
+    public boolean validateCylinder(int cylinder) {
+        if(cylinder > Constants.MOTORCYCLE_CC_RULE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
