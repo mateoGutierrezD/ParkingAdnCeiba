@@ -12,8 +12,11 @@ import co.com.ceiba.adnceibaparking.Utilities.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class VehicleService {
@@ -110,8 +113,8 @@ public class VehicleService {
                     valueToPay = valueToPay + Constants.MOTORCYCLE_EXTRA_PRICE;
                 }
 
-               // this.vehicleRepository.delete(vehicle);
-                return new Response<Object>(Constants.VEHICLE_DELETED, "Costo del parqueadero:" + (valueToPay));
+                //this.vehicleRepository.delete(vehicle);
+                return new Response<Object>(Constants.VEHICLE_DELETED, "El costo del parqueadero es: " + (valueToPay));
             }
         }
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
@@ -123,17 +126,17 @@ public class VehicleService {
         Date today = DateConverter.convertStringToDate(currentDate);
         Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
 
-        if(today.getTime() - dateIn.getTime() > 9 && today.getTime() - dateIn.getTime() < 25 ) {
+        if (calculateHoursInParking(today.getTime(), dateIn.getTime()) > 9 && calculateHoursInParking(today.getTime(), dateIn.getTime()) < 25 ) {
             value = Constants.CAR_DAY_PRICE;
 
-        } else if (today.getTime() - dateIn.getTime() > 24)
+        } else if (calculateHoursInParking(today.getTime(), dateIn.getTime()) > 24 && calculateHoursInParking(today.getTime(), dateIn.getTime()) > 9)
         {
-            long totalDays = today.getTime() - dateIn.getTime();
+            long totalDays = calculateHoursInParking(today.getTime(), dateIn.getTime());
             totalDays = totalDays / 24;
             value = Constants.CAR_DAY_PRICE * totalDays;
 
         } else {
-            long totalHours = today.getTime() - dateIn.getTime();
+            long totalHours = calculateHoursInParking(today.getTime(), dateIn.getTime());
             value = Constants.CAR_HOUR_PRICE * totalHours;
         }
 
@@ -146,21 +149,33 @@ public class VehicleService {
         Date today = DateConverter.convertStringToDate(currentDate);
         Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
 
-        if(today.getTime() - dateIn.getTime() > 9 && today.getTime() - dateIn.getTime() < 25 ) {
+
+        if(calculateHoursInParking(today.getTime(), dateIn.getTime())  > 9 && calculateHoursInParking(today.getTime(), dateIn.getTime()) < 25 ) {
             value = Constants.MOTORCYCLE_DAY_PRICE;
 
-        } else if (today.getTime() - dateIn.getTime() > 24)
+        } else if (calculateHoursInParking(today.getTime(), dateIn.getTime()) > 24)
         {
-            long totalDays = today.getTime() - dateIn.getTime();
+            long totalDays = calculateHoursInParking(today.getTime(), dateIn.getTime());
             totalDays = totalDays / 24;
             value = Constants.MOTORCYCLE_DAY_PRICE * totalDays;
 
         } else {
-            long totalHours = today.getTime() - dateIn.getTime();
+            long totalHours = calculateHoursInParking(today.getTime(), dateIn.getTime());
             value = Constants.MOTORCYCLE_HOUR_PRICE * totalHours;
         }
 
         return value;
+    }
+
+    public long calculateHoursInParking(long dateIn, long dateOut){
+
+        long hoursIn = TimeUnit.MILLISECONDS.toHours(dateIn);
+        dateIn -= TimeUnit.HOURS.toMillis(hoursIn);
+
+        long hoursOut = TimeUnit.MILLISECONDS.toHours(dateOut);
+        dateOut -= TimeUnit.HOURS.toMillis(hoursOut);
+
+        return hoursIn - hoursOut;
     }
 
     public boolean validateCylinder(int cylinder) {

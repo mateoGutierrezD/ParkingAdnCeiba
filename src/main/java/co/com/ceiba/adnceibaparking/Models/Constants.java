@@ -2,15 +2,12 @@ package co.com.ceiba.adnceibaparking.Models;
 
 public class Constants {
 
-    public static final int STATUS_CODE_SUCCESS = 200;
-    public static final int STATUS_CODE_FAILURE = 205;
     public static final int CAR_DAY_PRICE = 8000;
     public static final int CAR_HOUR_PRICE = 1000;
     public static final int MOTORCYCLE_DAY_PRICE = 4000;
     public static final int MOTORCYCLE_HOUR_PRICE = 500;
     public static final int MOTORCYCLE_EXTRA_PRICE = 2000;
     public static final int MOTORCYCLE_CC_RULE = 500;
-    public static final int HOURS_BEING_DAY = 9;
 
     public static final String SUCCESS = "Hecho!";
 
