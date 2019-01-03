@@ -2,6 +2,9 @@ package co.com.ceiba.adnceibaparking.Models;
 
 public class Constants {
 
+    public static final String CAR = "Carro";
+    public static final String MOTORCYCLE = "Moto";
+
     public static final int CAR_DAY_PRICE = 8000;
     public static final int CAR_HOUR_PRICE = 1000;
     public static final int MOTORCYCLE_DAY_PRICE = 4000;
@@ -27,6 +30,4 @@ public class Constants {
 
     public static final int MAX_NUMBER_CARS = 20;
     public static final int MAX_NUMBER_MOTORCYCLES = 10;
-    public static final String CAR = "Carro";
-    public static final String MOTORCYCLE = "Moto";
 }
