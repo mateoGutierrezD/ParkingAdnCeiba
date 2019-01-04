@@ -21,7 +21,7 @@ public class TypeVehicleService {
         if(typeVehicleList.size() < 1) {
             return new Response<List<TypeVehicle>>(Constants.NO_VEHICLE_TYPES_REGISTERED);
         } else {
-            return new Response<List<TypeVehicle>>(Constants.SUCCESS, typeVehicleList);
+            return new Response<List<TypeVehicle>>(typeVehicleList);
         }
     }
 
