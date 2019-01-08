@@ -74,8 +74,8 @@ public class VehicleService {
     }
 
     public boolean vehicleCanPark(String plate) {
-        if (plate.toUpperCase().substring(0, 1).equals("A")) {
-            return (DateConverter.getCurrentDayOfWeek() == 1 || DateConverter.getCurrentDayOfWeek() == 2);
+        if (plate.toUpperCase().substring(0, 1).equals(Constants.LETTER_START_RULE)) {
+            return (DateConverter.getCurrentDayOfWeek() == Constants.SUNDAY || DateConverter.getCurrentDayOfWeek() == Constants.MONDAY);
         }
         return true;
     }
@@ -107,14 +107,14 @@ public class VehicleService {
                         valueToPay = calculateMotorcyclePaymentBill(vehicle);
                 }
 
-                boolean vehicleIshighCylinder = validateCylinder(vehicle.getCylinder());
+                this.vehicleRepository.delete(vehicle);
+                int value = (int)valueToPay;
 
-                if(vehicleIshighCylinder) {
-                    valueToPay = valueToPay + Constants.MOTORCYCLE_EXTRA_PRICE;
+                if (value < 0) {
+                    value = value * -1;
                 }
 
-                this.vehicleRepository.delete(vehicle);
-                return new Response<Object>(Constants.VEHICLE_DELETED, (int)valueToPay);
+                return new Response<Object>(Constants.VEHICLE_DELETED, value);
             }
         }
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
@@ -124,12 +124,12 @@ public class VehicleService {
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
-        if (totalHours > 9 && totalHours < 25 ) {
+        if (totalHours > Constants.DAY_BEGIN_HOUR && totalHours <= Constants.DAY_FINISH_HOUR ) {
             value = Constants.CAR_DAY_PRICE;
 
-        } else if (totalHours > 24 && totalHours > 9)
+        } else if (totalHours > Constants.DAY_FINISH_HOUR && totalHours > Constants.DAY_BEGIN_HOUR)
         {
-            totalHours = totalHours / 24;
+            totalHours = totalHours / Constants.DAY_FINISH_HOUR;
             value = Constants.CAR_DAY_PRICE * (int) Math.ceil(totalHours);
 
         } else {
@@ -143,16 +143,22 @@ public class VehicleService {
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
-        if (totalHours > 9 && totalHours < 25 ) {
+        if (totalHours > Constants.DAY_BEGIN_HOUR && totalHours <= Constants.DAY_FINISH_HOUR ) {
             value = Constants.MOTORCYCLE_DAY_PRICE;
 
-        } else if (totalHours > 24 && totalHours > 9)
+        } else if (totalHours > Constants.DAY_FINISH_HOUR && totalHours > Constants.DAY_BEGIN_HOUR)
         {
-            totalHours = totalHours / 24;
+            totalHours = totalHours / Constants.DAY_FINISH_HOUR;
             value = Constants.MOTORCYCLE_DAY_PRICE * (int) Math.ceil(totalHours);
 
         } else {
             value = Constants.MOTORCYCLE_HOUR_PRICE * totalHours;
+        }
+
+        boolean vehicleIshighCylinder = validateCylinder(vehicle.getCylinder());
+
+        if(vehicleIshighCylinder) {
+            value = value + Constants.MOTORCYCLE_EXTRA_PRICE;
         }
 
         return value;
@@ -171,8 +177,8 @@ public class VehicleService {
         double hoursIn = TimeUnit.MILLISECONDS.toMinutes(dateIn);
         double hoursOut = TimeUnit.MILLISECONDS.toMinutes(dateOut);
 
-        hoursOut = hoursOut / 60;
-        hoursIn = hoursIn / 60;
+        hoursOut = hoursOut / Constants.TIME_UNITY;
+        hoursIn = hoursIn / Constants.TIME_UNITY;
 
         return hoursIn - hoursOut;
     }

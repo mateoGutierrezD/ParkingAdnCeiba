@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class VehicleController {
 
-
-    private VehicleRepository vehicleRepository;
     private VehicleService vehicleService;
 
-    public VehicleController(VehicleRepository vehicleRepository, VehicleService vehicleService) {
-        this.vehicleRepository = vehicleRepository;
+    public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
 
