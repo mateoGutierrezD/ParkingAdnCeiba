@@ -9,6 +9,7 @@ import co.com.ceiba.adnceibaparking.Models.Response;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
 import co.com.ceiba.adnceibaparking.Repositories.VehicleRepository;
 import co.com.ceiba.adnceibaparking.Utilities.DateConverter;
+import co.com.ceiba.adnceibaparking.Utilities.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,10 +111,6 @@ public class VehicleService {
                 this.vehicleRepository.delete(vehicle);
                 int value = (int)valueToPay;
 
-                if (value < 0) {
-                    value = value * -1;
-                }
-
                 return new Response<Object>(Constants.VEHICLE_DELETED, value);
             }
         }
@@ -168,6 +165,7 @@ public class VehicleService {
         Date today = DateConverter.convertStringToDate(currentDate);
         Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
         double totalHours = calculateHoursInParking(today.getTime(), dateIn.getTime());
+        totalHours = Utils.ConvertNegativeNumberToPositive(totalHours);
         totalHours = (int) Math.ceil(totalHours);
         return totalHours;
     }
