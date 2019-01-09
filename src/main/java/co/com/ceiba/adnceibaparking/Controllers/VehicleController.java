@@ -45,5 +45,4 @@ public class VehicleController {
     public Response<?> delete(@RequestParam(value="plate") String plate) {
         return vehicleService.deleteVehicle(plate);
     }
-
 }

@@ -184,7 +184,7 @@ public class VehicleService {
     }
 
     public boolean validateCylinder(int cylinder) {
-        if(cylinder > Constants.MOTORCYCLE_CC_RULE) {
+        if(cylinder >= Constants.MOTORCYCLE_CC_RULE) {
             return true;
         } else {
             return false;

@@ -30,7 +30,7 @@ public class Constants {
     public static final String VEHICLE_DELETED = "Vehículo eliminado!";
 
     public static final String VEHICLE_NOT_IN_PARKING = "Este vehículo no está en el parqueadero";
-    public static final String DATE_FORMAT = "dd/MM/yyyy hh:mm:ss a";
+    public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final String MAX_NUMBER_VEHICLES = "El parqueadero está lleno";
 
     public static final int MAX_NUMBER_CARS = 20;
