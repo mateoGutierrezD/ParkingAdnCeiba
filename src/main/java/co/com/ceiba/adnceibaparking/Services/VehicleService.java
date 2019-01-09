@@ -25,6 +25,7 @@ public class VehicleService {
 
     double value = 0;
     String currentDate = DateConverter.getCurrentDate();
+    Date today;
 
 
     public Response<List<Vehicle>> getAllVehicles() {
@@ -38,8 +39,8 @@ public class VehicleService {
     }
 
     public Response<List<Vehicle>> registerVehicle(Vehicle vehicle) throws NumberMaxVehicles, PlateForDay, VehicleRegisteredPreviously {
-        List<Vehicle> vehicleList = vehicleRepository.findAll();
-        int numberOfVehicles = vehicleList.size();
+        List<Vehicle> VehicleList = vehicleRepository.findAllByTypeVehicleDescription(vehicle.getTypeVehicleDescription());
+        int numberOfVehicles = VehicleList.size();
 
         if (maxCapacity(vehicle.getTypeVehicleDescription(), numberOfVehicles)) {
             throw new NumberMaxVehicles();
@@ -58,15 +59,15 @@ public class VehicleService {
         return new Response<List<Vehicle>>(Constants.SUCCESS);
     }
 
-    public boolean maxCapacity(String typeVehicle, int numberVehicles) {
+    public boolean maxCapacity(String typeVehicle, int numberOfVehicles) {
         switch (typeVehicle) {
             case Constants.CAR :
-                if(numberVehicles >= Constants.MAX_NUMBER_CARS){
+                if(numberOfVehicles >= Constants.MAX_NUMBER_CARS){
                     return true;
                 }
                 break;
             case Constants.MOTORCYCLE:
-                if(numberVehicles >= Constants.MAX_NUMBER_MOTORCYCLES){
+                if(numberOfVehicles >= Constants.MAX_NUMBER_MOTORCYCLES){
                     return true;
                 }
                 break;
@@ -162,8 +163,9 @@ public class VehicleService {
     }
 
     public double getCurrentDateAndVehicleDateIn(Vehicle vehicle){
-        Date today = DateConverter.convertStringToDate(currentDate);
-        Date dateIn = DateConverter.convertStringToDate(vehicle.getDateIn());
+        today = DateConverter.convertStringToDate(currentDate);
+        Date dateIn;
+        dateIn= DateConverter.convertStringToDate(vehicle.getDateIn());
         double totalHours = calculateHoursInParking(today.getTime(), dateIn.getTime());
         totalHours = Utils.ConvertNegativeNumberToPositive(totalHours);
         totalHours = (int) Math.ceil(totalHours);
@@ -188,6 +190,4 @@ public class VehicleService {
             return false;
         }
     }
-
-
 }
