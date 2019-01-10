@@ -111,6 +111,41 @@ public class UnitTests {
     }
 
     @Test
+    public void testInsertTypeVehicleSucessfully() {
+        // Arrange
+        String expected = Constants.SUCCESS;
+        TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
+
+        // Act
+        when(typeVehicleRepository.insert(typeVehicle)).thenReturn(typeVehicle);
+        Response<List<TypeVehicle>> response = typeVehicleService.registerTypeVehicle(typeVehicle);
+        String message = response.getMessage();
+
+        // Assert
+        assertEquals(message, expected);
+    }
+
+    @Test
+    public void testDeleteTypeVehicleSucessfully() {
+        TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
+
+        when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(typeVehicle);
+        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+
+        assertEquals(response.getMessage(), Constants.VEHICLE_TYPES_DELETED);
+    }
+
+    @Test
+    public void testDeleteVehicleFailedBecauseNoExists() {
+        TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
+
+        when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(null);
+        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+
+        assertEquals(response.getMessage(), Constants.VEHICLE_TYPE_NOT_EXISTS);
+    }
+
+    @Test
     public void testShouldCalculateOneHourBetweenDateInAndDateOut() throws Exception{
         // Arrange
         double hourExpected = 1;
@@ -358,7 +393,7 @@ public class UnitTests {
         // Assert
         assertFalse(isIn);
     }
-    
+
 
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
         vehicleList.add(new Vehicle(1,"EXT567","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
