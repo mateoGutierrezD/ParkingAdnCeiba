@@ -24,6 +24,7 @@ import co.com.ceiba.adnceibaparking.repositories.VehicleRepository;
 import co.com.ceiba.adnceibaparking.services.TypeVehicleService;
 import co.com.ceiba.adnceibaparking.services.VehicleService;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +73,7 @@ public class UnitTests {
     }
 
     @Test
-    public void testShouldNotAddExtraPaymentToLOWCylinderVehicle() {
+    public void testShouldNotAddExtraPaymentToLowCylinderVehicle() {
         // Arrange
         Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",125,"08/01/2019 08:03:38","Moto");
 
@@ -142,8 +143,123 @@ public class UnitTests {
         assertEquals(number, 1.0, 1);
     }
 
+    @Test
+    public void testShouldReturnTheSameNumberWhenIsPositiveTryingToConvert() {
+        // Arrange
+        double number = 1.0;
+
+        // Act
+        number = Utils.convertNegativeNumberToPositive(number);
+
+        // Assert
+        assertEquals(number, 1.0, 1);
+    }
+
+    @Test
+    public void testShouldReturnVehicleCannotParkInMondayAndSunday() {
+        // Arrange
+        String plate = "AAA123";
+
+        // Act
+        boolean cannot = vehicleService.vehicleCanPark(plate);
+
+        // Assert
+        if (DateConverter.getCurrentDayOfWeek() == Constants.SUNDAY || DateConverter.getCurrentDayOfWeek() == Constants.MONDAY) {
+            assertTrue(cannot);
+        } else {
+            assertFalse(cannot);
+        }
+    }
+
+    @Test
+    public void testShouldReturnVehicleIsNotAlreadyRegistered() {
+        // Arrange
+        String plate = "0";
+
+        // Act
+        boolean isIn = vehicleService.carIsAlreadyRegistered(plate);
+
+        // Assert
+        assertFalse(isIn);
+    }
+
+    @Test
+    public void testShouldReturnSomeValueCalculatingCarPaymentBill() throws ParseException {
+        // Arrange
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0,"08/01/2019 08:03:38","Carro");
+
+        // Act
+        double amount = vehicleService.calculateCarPaymentBill(vehicle);
+
+        // Assert
+        assertNotNull(amount);
+    }
+
+    @Test
+    public void testShouldReturnSomeValueCalculatingMotorcyclePaymentBill() throws ParseException {
+        // Arrange
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        double amount = vehicleService.calculateMotorcyclePaymentBill(vehicle);
+
+        // Assert
+        assertNotNull(amount);
+    }
+
+    @Test
+    public void testShouldReturnCarParkingCapacityIsFull() {
+        // Arrange
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0,"08/01/2019 08:03:38","Carro");
+
+        // Act
+        boolean maxCapacity = vehicleService.maxCapacity(vehicle.getTypeVehicleDescription(), 20);
+
+        // Assert
+        assertTrue(maxCapacity);
+    }
+
+    @Test
+    public void testShouldReturnCarParkingCapacityIsNotFull() {
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0,"08/01/2019 08:03:38","Carro");
+
+        // Act
+        boolean maxCapacity = vehicleService.maxCapacity(vehicle.getTypeVehicleDescription(), 10);
+
+        // Assert
+        assertFalse(maxCapacity);
+
+    }
+
+    @Test
+    public void testShouldReturnMotorcycleParkingCapacityIsFull() {
+        // Arrange
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        boolean maxCapacity = vehicleService.maxCapacity(vehicle.getTypeVehicleDescription(), 10);
+
+        // Assert
+        assertTrue(maxCapacity);
+
+    }
+
+    @Test
+    public void testShouldReturnMotorcycleParkingCapacityIsNotFull() {
+        // Arrange
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        boolean maxCapacity = vehicleService.maxCapacity(vehicle.getTypeVehicleDescription(), 5);
+
+        // Assert
+        assertFalse(maxCapacity);
+
+    }
+
+
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
-        vehicleList.add(new Vehicle(1,"Carro","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
+        vehicleList.add(new Vehicle(1,"EXT567","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
         vehicleList.add(new Vehicle(2,"III999","Pepe Cabral",750,"08/01/2019 08:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"QQQ111","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
