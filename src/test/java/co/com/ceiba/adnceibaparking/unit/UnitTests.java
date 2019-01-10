@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import co.com.ceiba.adnceibaparking.utilities.DateConverter;
+import co.com.ceiba.adnceibaparking.utilities.Utils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -127,6 +128,18 @@ public class UnitTests {
 
         // Assert
         assertNotNull(response.getData());
+    }
+
+    @Test
+    public void testShouldConvertNumberNegativeToPositive() {
+        // Arrange
+        double number = -1.0;
+
+        // Act
+        number = Utils.convertNegativeNumberToPositive(number);
+
+        // Assert
+        assertEquals(number, 1.0, 1);
     }
 
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {

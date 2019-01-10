@@ -1,5 +1,6 @@
 package co.com.ceiba.adnceibaparking.services;
 
+import co.com.ceiba.adnceibaparking.exceptions.GeneralException;
 import co.com.ceiba.adnceibaparking.exceptions.NumberMaxVehicles;
 import co.com.ceiba.adnceibaparking.exceptions.PlateForDay;
 import co.com.ceiba.adnceibaparking.exceptions.VehicleRegisteredPreviously;
@@ -39,7 +40,7 @@ public class VehicleService {
         }
     }
 
-    public Response<List<Vehicle>> registerVehicle(Vehicle vehicle) throws NumberMaxVehicles, PlateForDay, VehicleRegisteredPreviously {
+    public Response<List<Vehicle>> registerVehicle(Vehicle vehicle) throws GeneralException {
         List<Vehicle> VehicleList = vehicleRepository.findAllByTypeVehicleDescription(vehicle.getTypeVehicleDescription());
         int numberOfVehicles = VehicleList.size();
 
