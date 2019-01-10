@@ -29,7 +29,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/register", method=RequestMethod.POST)
-    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws VehicleRegisteredPreviously, PlateForDay, NumberMaxVehicles {
+    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws Exception {
         vehicleService.registerVehicle(vehicle);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Vehicle>(Constants.VEHICLE_ENTERED));
     }
