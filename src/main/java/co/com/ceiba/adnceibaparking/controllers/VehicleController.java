@@ -1,11 +1,9 @@
 package co.com.ceiba.adnceibaparking.controllers;
 
-import co.com.ceiba.adnceibaparking.exceptions.NumberMaxVehicles;
-import co.com.ceiba.adnceibaparking.exceptions.PlateForDay;
-import co.com.ceiba.adnceibaparking.exceptions.VehicleRegisteredPreviously;
 import co.com.ceiba.adnceibaparking.Models.Constants;
 import co.com.ceiba.adnceibaparking.Models.Response;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
+import co.com.ceiba.adnceibaparking.exceptions.GeneralException;
 import co.com.ceiba.adnceibaparking.services.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/register", method=RequestMethod.POST)
-    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws Exception {
+    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws GeneralException {
         vehicleService.registerVehicle(vehicle);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Vehicle>(Constants.VEHICLE_ENTERED));
     }
