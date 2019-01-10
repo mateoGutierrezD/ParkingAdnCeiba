@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
+import co.com.ceiba.adnceibaparking.exceptions.GeneralException;
 import co.com.ceiba.adnceibaparking.utilities.DateConverter;
 import co.com.ceiba.adnceibaparking.utilities.Utils;
 import org.junit.Rule;
@@ -95,7 +96,7 @@ public class UnitTests {
         Response<List<Vehicle>> response = vehicleService.getAllVehicles();
 
         // Assert
-        assertNotNull(response.getData());
+        assertFalse(response.getData().isEmpty());
     }
 
     @Test
@@ -128,7 +129,7 @@ public class UnitTests {
         Response<List<TypeVehicle>> response = typeVehicleService.getAllVehicleTypes();
 
         // Assert
-        assertNotNull(response.getData());
+        assertFalse(response.getData().isEmpty());
     }
 
     @Test
@@ -255,6 +256,44 @@ public class UnitTests {
         // Assert
         assertFalse(maxCapacity);
 
+    }
+
+    @Test
+    public void testInsertVehicleSucessfully() throws GeneralException {
+        // Arrange
+        String expected = Constants.SUCCESS;
+        Vehicle vehicle = new Vehicle(2,"EBC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        when(vehicleRepository.insert(vehicle)).thenReturn(vehicle);
+        Response<List<Vehicle>> response = vehicleService.registerVehicle(vehicle);
+        String message = response.getMessage();
+
+        // Assert
+        assertEquals(message, expected);
+    }
+
+    @Test
+    public void testInsertVehicleFailureByPlateRule() throws GeneralException {
+        // Arrange
+        String expected = Constants.VEHICLE_CANNOT_ENTER;
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+        String message = "";
+
+        // Act
+        try {
+            when(vehicleRepository.insert(vehicle)).thenReturn(vehicle);
+            Response<List<Vehicle>> response = vehicleService.registerVehicle(vehicle);
+            message = response.getMessage();
+
+            // Assert
+            assertNotEquals(message, expected);
+
+        } catch (GeneralException e) {
+            // Assert
+            assertEquals(e.getMessage(), expected);
+
+        }
     }
 
 
