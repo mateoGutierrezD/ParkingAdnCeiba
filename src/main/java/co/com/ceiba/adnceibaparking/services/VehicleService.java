@@ -96,7 +96,7 @@ public class VehicleService {
         return false;
     }
 
-    public Response<Object> deleteVehicle(String plate){
+    public Response<Object> deleteVehicle(String plate) throws Exception{
         double valueToPay = 0;
         Vehicle vehicle = this.vehicleRepository.findByPlate(plate);
         if(vehicle != null){
@@ -108,7 +108,7 @@ public class VehicleService {
                         valueToPay = calculateCarPaymentBill(vehicle);
                         break;
                     case Constants.MOTORCYCLE :
-                        valueToPay = calculateMotorcyclePaymentBill(vehicle);
+                        valueToPay = calculateMotorcyclePaymentBill(vehicle) ;
                         break;
                     default:
                         break;
@@ -123,7 +123,7 @@ public class VehicleService {
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
     }
 
-    public double calculateCarPaymentBill(Vehicle vehicle){
+    public double calculateCarPaymentBill(Vehicle vehicle) throws Exception{
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
@@ -143,7 +143,7 @@ public class VehicleService {
         return value;
     }
 
-    public double calculateMotorcyclePaymentBill(Vehicle vehicle){
+    public double calculateMotorcyclePaymentBill(Vehicle vehicle) throws Exception{
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
@@ -169,7 +169,7 @@ public class VehicleService {
         return value;
     }
 
-    public double getCurrentDateAndVehicleDateIn(Vehicle vehicle){
+    public double getCurrentDateAndVehicleDateIn(Vehicle vehicle) throws Exception{
         today = DateConverter.convertStringToDate(currentDate);
         Date dateIn;
         dateIn= DateConverter.convertStringToDate(vehicle.getDateIn());

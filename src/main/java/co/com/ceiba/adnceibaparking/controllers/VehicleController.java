@@ -43,7 +43,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/delete", method=RequestMethod.DELETE)
-    public Response<Object> delete(@RequestParam(value="plate") String plate) {
+    public Response<Object> delete(@RequestParam(value="plate") String plate) throws Exception {
         return vehicleService.deleteVehicle(plate);
     }
 }
