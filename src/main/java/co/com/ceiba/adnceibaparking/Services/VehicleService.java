@@ -109,6 +109,7 @@ public class VehicleService {
                         break;
                     case Constants.MOTORCYCLE :
                         valueToPay = calculateMotorcyclePaymentBill(vehicle);
+                        break;
                     default:
                         break;
                 }
