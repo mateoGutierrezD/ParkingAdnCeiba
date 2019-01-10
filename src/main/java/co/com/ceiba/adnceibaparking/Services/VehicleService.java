@@ -71,6 +71,8 @@ public class VehicleService {
                     return true;
                 }
                 break;
+            default:
+                break;
         }
         return false;
     }
@@ -107,6 +109,8 @@ public class VehicleService {
                         break;
                     case Constants.MOTORCYCLE :
                         valueToPay = calculateMotorcyclePaymentBill(vehicle);
+                    default:
+                        break;
                 }
 
                 this.vehicleRepository.delete(vehicle);
