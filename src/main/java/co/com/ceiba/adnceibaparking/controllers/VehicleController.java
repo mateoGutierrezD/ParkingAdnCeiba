@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/delete", method=RequestMethod.DELETE)
-    public Response<Object> delete(@RequestParam(value="plate") String plate) throws Exception {
+    public Response<Object> delete(@RequestParam(value="plate") String plate) throws ParseException {
         return vehicleService.deleteVehicle(plate);
     }
 }

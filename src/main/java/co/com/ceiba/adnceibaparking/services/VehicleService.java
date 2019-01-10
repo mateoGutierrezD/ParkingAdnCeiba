@@ -13,6 +13,7 @@ import co.com.ceiba.adnceibaparking.utilities.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -96,7 +97,7 @@ public class VehicleService {
         return false;
     }
 
-    public Response<Object> deleteVehicle(String plate) throws Exception{
+    public Response<Object> deleteVehicle(String plate) throws ParseException{
         double valueToPay = 0;
         Vehicle vehicle = this.vehicleRepository.findByPlate(plate);
         if(vehicle != null){
@@ -123,7 +124,7 @@ public class VehicleService {
         return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
     }
 
-    public double calculateCarPaymentBill(Vehicle vehicle) throws Exception{
+    public double calculateCarPaymentBill(Vehicle vehicle) throws ParseException{
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
@@ -143,7 +144,7 @@ public class VehicleService {
         return value;
     }
 
-    public double calculateMotorcyclePaymentBill(Vehicle vehicle) throws Exception{
+    public double calculateMotorcyclePaymentBill(Vehicle vehicle) throws ParseException{
 
         double totalHours = getCurrentDateAndVehicleDateIn(vehicle);
 
@@ -169,7 +170,7 @@ public class VehicleService {
         return value;
     }
 
-    public double getCurrentDateAndVehicleDateIn(Vehicle vehicle) throws Exception{
+    public double getCurrentDateAndVehicleDateIn(Vehicle vehicle) throws ParseException {
         today = DateConverter.convertStringToDate(currentDate);
         Date dateIn;
         dateIn= DateConverter.convertStringToDate(vehicle.getDateIn());
