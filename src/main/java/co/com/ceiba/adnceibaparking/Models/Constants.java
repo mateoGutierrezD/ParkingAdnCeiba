@@ -2,6 +2,8 @@ package co.com.ceiba.adnceibaparking.Models;
 
 public class Constants {
 
+    private Constants() {}
+
     public static final String CAR = "Carro";
     public static final String MOTORCYCLE = "Moto";
 

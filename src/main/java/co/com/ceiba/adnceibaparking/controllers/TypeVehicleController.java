@@ -1,9 +1,8 @@
-package co.com.ceiba.adnceibaparking.Controllers;
+package co.com.ceiba.adnceibaparking.controllers;
 
 import co.com.ceiba.adnceibaparking.Models.Response;
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
-import co.com.ceiba.adnceibaparking.Repositories.TypeVehicleRepository;
-import co.com.ceiba.adnceibaparking.Services.TypeVehicleService;
+import co.com.ceiba.adnceibaparking.services.TypeVehicleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 @RestController
 public class TypeVehicleController {
 
-    private TypeVehicleRepository typeVehicleRepository;
     private TypeVehicleService typeVehicleService;
 
     public TypeVehicleController(TypeVehicleService typeVehicleService) {

@@ -1,4 +1,4 @@
-package co.com.ceiba.adnceibaparking.Utilities;
+package co.com.ceiba.adnceibaparking.utilities;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
 
@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class DateConverter {
+
+    private DateConverter() { }
 
     public static String getCurrentDate() {
         Date date = new Date();
@@ -36,6 +38,7 @@ public class DateConverter {
             DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
             dateParsed   = dateFormat.parse(date);
         } catch (java.text.ParseException e) {
+            System.out.println(e);
         }
         return dateParsed;
     }

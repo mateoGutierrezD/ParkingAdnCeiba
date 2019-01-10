@@ -1,15 +1,15 @@
-package co.com.ceiba.adnceibaparking.Services;
+package co.com.ceiba.adnceibaparking.services;
 
-import co.com.ceiba.adnceibaparking.Exceptions.NumberMaxVehicles;
-import co.com.ceiba.adnceibaparking.Exceptions.PlateForDay;
-import co.com.ceiba.adnceibaparking.Exceptions.VehicleRegisteredPreviously;
+import co.com.ceiba.adnceibaparking.exceptions.NumberMaxVehicles;
+import co.com.ceiba.adnceibaparking.exceptions.PlateForDay;
+import co.com.ceiba.adnceibaparking.exceptions.VehicleRegisteredPreviously;
 import co.com.ceiba.adnceibaparking.Models.Constants;
 import co.com.ceiba.adnceibaparking.Models.Response;
 
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
-import co.com.ceiba.adnceibaparking.Repositories.VehicleRepository;
-import co.com.ceiba.adnceibaparking.Utilities.DateConverter;
-import co.com.ceiba.adnceibaparking.Utilities.Utils;
+import co.com.ceiba.adnceibaparking.repositories.VehicleRepository;
+import co.com.ceiba.adnceibaparking.utilities.DateConverter;
+import co.com.ceiba.adnceibaparking.utilities.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class VehicleService {
     public Response<List<Vehicle>> getAllVehicles() {
         List<Vehicle> vehicleList = vehicleRepository.findAll();
 
-        if(vehicleList.size() < 1) {
+        if(vehicleList.isEmpty()) {
             return new Response<List<Vehicle>>(Constants.NO_VEHICLES_IN_PARKING);
         } else {
             return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
@@ -115,7 +115,7 @@ public class VehicleService {
                 }
 
                 this.vehicleRepository.delete(vehicle);
-                int value = (int)valueToPay;
+                value = (int)valueToPay;
 
                 return new Response<Object>(Constants.VEHICLE_DELETED, value);
             }
@@ -174,7 +174,7 @@ public class VehicleService {
         Date dateIn;
         dateIn= DateConverter.convertStringToDate(vehicle.getDateIn());
         double totalHours = calculateHoursInParking(today.getTime(), dateIn.getTime());
-        totalHours = Utils.ConvertNegativeNumberToPositive(totalHours);
+        totalHours = Utils.convertNegativeNumberToPositive(totalHours);
         totalHours = (int) Math.ceil(totalHours);
         return totalHours;
     }
@@ -191,10 +191,6 @@ public class VehicleService {
     }
 
     public boolean validateCylinder(int cylinder) {
-        if(cylinder >= Constants.MOTORCYCLE_CC_RULE) {
-            return true;
-        } else {
-            return false;
-        }
+        return (cylinder >= Constants.MOTORCYCLE_CC_RULE);
     }
 }

@@ -1,4 +1,4 @@
-package co.com.ceiba.adnceibaparking.Exceptions;
+package co.com.ceiba.adnceibaparking.exceptions;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
 

@@ -1,4 +1,4 @@
-package co.com.ceiba.adnceibaparking.Repositories;
+package co.com.ceiba.adnceibaparking.repositories;
 
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import org.springframework.data.mongodb.repository.MongoRepository;

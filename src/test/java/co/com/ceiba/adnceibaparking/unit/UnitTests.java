@@ -3,7 +3,7 @@ package co.com.ceiba.adnceibaparking.unit;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-import co.com.ceiba.adnceibaparking.Utilities.DateConverter;
+import co.com.ceiba.adnceibaparking.utilities.DateConverter;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,22 +14,17 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import co.com.ceiba.adnceibaparking.Exceptions.NumberMaxVehicles;
-import co.com.ceiba.adnceibaparking.Exceptions.PlateForDay;
-import co.com.ceiba.adnceibaparking.Exceptions.VehicleRegisteredPreviously;
 import co.com.ceiba.adnceibaparking.Models.Constants;
 import co.com.ceiba.adnceibaparking.Models.Response;
-import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
-import co.com.ceiba.adnceibaparking.Repositories.TypeVehicleRepository;
-import co.com.ceiba.adnceibaparking.Repositories.VehicleRepository;
-import co.com.ceiba.adnceibaparking.Services.TypeVehicleService;
-import co.com.ceiba.adnceibaparking.Services.VehicleService;
+import co.com.ceiba.adnceibaparking.repositories.TypeVehicleRepository;
+import co.com.ceiba.adnceibaparking.repositories.VehicleRepository;
+import co.com.ceiba.adnceibaparking.services.TypeVehicleService;
+import co.com.ceiba.adnceibaparking.services.VehicleService;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 @RunWith(MockitoJUnitRunner.Silent.class)
@@ -51,6 +46,8 @@ public class UnitTests {
 
     @Mock
     TypeVehicleRepository typeVehicleRepository;
+
+    // TEST CASES
 
     @Test
     public void testShouldAddExtraPaymentToHighCylinderVehicle() {
@@ -116,6 +113,9 @@ public class UnitTests {
         // Assert
         assertEquals(hours, hourExpected, 1.0);
     }
+
+    @Test
+
 
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
         vehicleList.add(new Vehicle(1,"ZZZ000","Eduardo López",0,"09/01/2019 18:03:38","Carro"));

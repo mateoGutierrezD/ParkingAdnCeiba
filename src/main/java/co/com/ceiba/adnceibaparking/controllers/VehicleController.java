@@ -1,13 +1,12 @@
-package co.com.ceiba.adnceibaparking.Controllers;
+package co.com.ceiba.adnceibaparking.controllers;
 
-import co.com.ceiba.adnceibaparking.Exceptions.NumberMaxVehicles;
-import co.com.ceiba.adnceibaparking.Exceptions.PlateForDay;
-import co.com.ceiba.adnceibaparking.Exceptions.VehicleRegisteredPreviously;
+import co.com.ceiba.adnceibaparking.exceptions.NumberMaxVehicles;
+import co.com.ceiba.adnceibaparking.exceptions.PlateForDay;
+import co.com.ceiba.adnceibaparking.exceptions.VehicleRegisteredPreviously;
 import co.com.ceiba.adnceibaparking.Models.Constants;
 import co.com.ceiba.adnceibaparking.Models.Response;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
-import co.com.ceiba.adnceibaparking.Repositories.VehicleRepository;
-import co.com.ceiba.adnceibaparking.Services.VehicleService;
+import co.com.ceiba.adnceibaparking.services.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

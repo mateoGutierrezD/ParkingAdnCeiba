@@ -1,9 +1,9 @@
-package co.com.ceiba.adnceibaparking.Services;
+package co.com.ceiba.adnceibaparking.services;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
 import co.com.ceiba.adnceibaparking.Models.Response;
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
-import co.com.ceiba.adnceibaparking.Repositories.TypeVehicleRepository;
+import co.com.ceiba.adnceibaparking.repositories.TypeVehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
