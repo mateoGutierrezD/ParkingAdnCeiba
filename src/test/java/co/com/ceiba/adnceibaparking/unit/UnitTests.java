@@ -97,7 +97,7 @@ public class UnitTests {
     }
 
     @Test
-    public void testShouldCalculateOneHourBetweenDateInAndDateOut() {
+    public void testShouldCalculateOneHourBetweenDateInAndDateOut() throws Exception{
         // Arrange
         double hourExpected = 1;
         String dateIn = "08/01/2019 08:03:38";
