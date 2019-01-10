@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VehicleController {
 
@@ -22,12 +24,12 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/allRegisteredVehicles", method=RequestMethod.GET)
-    public Response<?> listVehicles(){
+    public Response<List<Vehicle>> listVehicles(){
         return vehicleService.getAllVehicles();
     }
 
     @RequestMapping(value = "/vehicle/register", method=RequestMethod.POST)
-    public ResponseEntity<Response<?>> insert(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) {
         try {
 
             vehicleService.registerVehicle(vehicle);
@@ -42,7 +44,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/delete", method=RequestMethod.DELETE)
-    public Response<?> delete(@RequestParam(value="plate") String plate) {
+    public Response<Object> delete(@RequestParam(value="plate") String plate) {
         return vehicleService.deleteVehicle(plate);
     }
 }

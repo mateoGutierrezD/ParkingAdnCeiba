@@ -133,7 +133,8 @@ public class VehicleService {
         } else if (totalHours > Constants.DAY_FINISH_HOUR && totalHours > Constants.DAY_BEGIN_HOUR)
         {
             totalHours = totalHours / Constants.DAY_FINISH_HOUR;
-            value = Constants.CAR_DAY_PRICE * (int) Math.ceil(totalHours);
+            value = Constants.CAR_DAY_PRICE * Math.ceil(totalHours);
+            value = (int)value;
 
         } else {
             value = Constants.CAR_HOUR_PRICE * totalHours;
@@ -152,7 +153,8 @@ public class VehicleService {
         } else if (totalHours > Constants.DAY_FINISH_HOUR && totalHours > Constants.DAY_BEGIN_HOUR)
         {
             totalHours = totalHours / Constants.DAY_FINISH_HOUR;
-            value = Constants.MOTORCYCLE_DAY_PRICE * (int) Math.ceil(totalHours);
+            value = Constants.MOTORCYCLE_DAY_PRICE * Math.ceil(totalHours);
+            value = (int)value;
 
         } else {
             value = Constants.MOTORCYCLE_HOUR_PRICE * totalHours;
