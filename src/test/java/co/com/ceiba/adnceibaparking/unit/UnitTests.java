@@ -3,6 +3,7 @@ package co.com.ceiba.adnceibaparking.unit;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import co.com.ceiba.adnceibaparking.utilities.DateConverter;
 import org.junit.Rule;
 import org.junit.Test;
@@ -115,13 +116,30 @@ public class UnitTests {
     }
 
     @Test
+    public void testShouldListTypeVehicles() {
+        // Arrange
+        List<TypeVehicle> typeVehicles = new ArrayList<TypeVehicle>();
+        getTypeVehicles(typeVehicles);
 
+        // Act
+        when(typeVehicleRepository.findAll()).thenReturn(typeVehicles);
+        Response<List<TypeVehicle>> response = typeVehicleService.getAllVehicleTypes();
+
+        // Assert
+        assertNotNull(response.getData());
+    }
 
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
-        vehicleList.add(new Vehicle(1,"ZZZ000","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
+        vehicleList.add(new Vehicle(1,"Carro","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
         vehicleList.add(new Vehicle(2,"III999","Pepe Cabral",750,"08/01/2019 08:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"QQQ111","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
+    }
+
+    static Response<List<TypeVehicle>> getTypeVehicles(List<TypeVehicle> typeVehicleList) {
+        typeVehicleList.add(new TypeVehicle("1","Carro"));
+        typeVehicleList.add(new TypeVehicle("2","Moto"));
+        return new Response<List<TypeVehicle>>(Constants.SUCCESS, typeVehicleList);
     }
 
 }
