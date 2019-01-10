@@ -1,6 +1,6 @@
 package co.com.ceiba.adnceibaparking.Models;
 
-public class Constants {
+public final class Constants {
 
     private Constants() {}
 

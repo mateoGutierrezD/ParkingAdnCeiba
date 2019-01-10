@@ -1,6 +1,8 @@
 package co.com.ceiba.adnceibaparking.utilities;
 
-public class Utils {
+public final class Utils {
+
+    private Utils() {}
 
     public static double convertNegativeNumberToPositive(double number) {
         if (number < 0) {

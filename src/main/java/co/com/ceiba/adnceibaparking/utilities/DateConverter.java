@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 public class DateConverter {
 
@@ -31,14 +32,14 @@ public class DateConverter {
         return dateFormat.format(date);
     }
 
-    public static Date convertStringToDate(String date) {
+    public static Date convertStringToDate(String date) throws Exception{
         Date dateParsed = null;
         try {
             String stringDateFormat = Constants.DATE_FORMAT;
             DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
             dateParsed   = dateFormat.parse(date);
         } catch (java.text.ParseException e) {
-            System.out.println(e);
+            throw new Exception(e);
         }
         return dateParsed;
     }
