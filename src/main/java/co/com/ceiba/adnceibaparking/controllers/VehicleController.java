@@ -29,17 +29,8 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/register", method=RequestMethod.POST)
-    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) {
-        try {
-
-            vehicleService.registerVehicle(vehicle);
-        } catch (NumberMaxVehicles e) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response<Vehicle>(e.getMessage()));
-        } catch (PlateForDay e) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response<Vehicle>(e.getMessage()));
-        } catch (VehicleRegisteredPreviously e) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response<Vehicle>(e.getMessage()));
-        }
+    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws VehicleRegisteredPreviously, PlateForDay, NumberMaxVehicles {
+        vehicleService.registerVehicle(vehicle);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Vehicle>(Constants.VEHICLE_ENTERED));
     }
 
