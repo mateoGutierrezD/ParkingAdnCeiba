@@ -272,32 +272,23 @@ public class UnitTests {
         // Assert
         assertEquals(message, expected);
     }
-/*
 
     @Test
     public void testInsertVehicleFailureByPlateRule() throws GeneralException {
         // Arrange
         String expected = Constants.VEHICLE_CANNOT_ENTER;
         Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
-        String message = "";
 
         // Act
         try {
             when(vehicleRepository.insert(vehicle)).thenReturn(vehicle);
             Response<List<Vehicle>> response = vehicleService.registerVehicle(vehicle);
-            message = response.getMessage();
-
-            // Assert
-            assertNotEquals(message, expected);
 
         } catch (GeneralException e) {
             // Assert
             assertEquals(e.getMessage(), expected);
-
         }
     }
-
-    */
 
 
     static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
