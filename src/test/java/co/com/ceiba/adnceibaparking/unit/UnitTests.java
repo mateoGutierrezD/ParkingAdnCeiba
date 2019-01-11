@@ -137,6 +137,7 @@ public class UnitTests {
 
     @Test
     public void testDeleteTypeVehicleFailedBecauseNoExists() {
+        
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
 
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(null);
@@ -147,22 +148,28 @@ public class UnitTests {
 
     @Test
     public void testDeleteVehicleFailedBecauseIsNotInParking() throws ParseException {
+        // Arrange
         Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
 
+        // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(null);
         Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
 
+        // Assert
         assertEquals(response.getMessage(), Constants.VEHICLE_NOT_IN_PARKING);
 
     }
 
     @Test
     public void testDeleteVehicleSucessfully() throws ParseException {
+        // Arrange
         Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
 
+        // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
         Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
 
+        // Assert
         assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
     }
 
@@ -306,7 +313,6 @@ public class UnitTests {
 
         // Assert
         assertFalse(maxCapacity);
-
     }
 
     @Test
@@ -319,7 +325,6 @@ public class UnitTests {
 
         // Assert
         assertTrue(maxCapacity);
-
     }
 
     @Test
@@ -405,6 +410,36 @@ public class UnitTests {
 
         // Assert
         assertFalse(isIn);
+    }
+
+    @Test
+    public void testShoulGetCurrentDate() {
+        // Act
+        String date = DateConverter.getCurrentDate();
+
+        // Assert
+        assertNotNull(date);
+    }
+
+    @Test
+    public void testShouldGetCurrentDayOfWeek() {
+        // Act
+        int day = DateConverter.getCurrentDayOfWeek();
+
+        // Assert
+        assertNotNull(day);
+    }
+
+    @Test
+    public void testShouldConvertStringToDate() throws ParseException {
+        // Arrange
+        String dateString = "09/01/2019 18:03:38";
+
+        // Act
+        Date date = DateConverter.convertStringToDate(dateString);
+
+        // Assert
+        assertNotNull(date);
     }
 
 

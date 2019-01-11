@@ -16,7 +16,6 @@ public final class DateConverter {
         Date date = new Date();
         String stringDateFormat = Constants.DATE_FORMAT;
         DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
-
         return dateFormat.format(date);
     }
 
@@ -24,13 +23,6 @@ public final class DateConverter {
         Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
         return  localCalendar.get(Calendar.DAY_OF_WEEK);
     }
-
-    public static String convertDateToString(Date date) {
-        String stringDateFormat = Constants.DATE_FORMAT;
-        DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
-        return dateFormat.format(date);
-    }
-
     public static Date convertStringToDate(String date) throws java.text.ParseException{
         Date dateParsed = null;
         String stringDateFormat = Constants.DATE_FORMAT;
