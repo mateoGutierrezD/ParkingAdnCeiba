@@ -30,4 +30,19 @@ public final class DateConverter {
         dateParsed   = dateFormat.parse(date);
         return dateParsed;
     }
+
+    public static String convertDateToString(Date date) {
+        String stringDateFormat = Constants.DATE_FORMAT;
+        DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
+        return dateFormat.format(date);
+    }
+
+    public static Date addOrSubtractHoursToDate(Date date, int hours){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
+    }
+
+
 }

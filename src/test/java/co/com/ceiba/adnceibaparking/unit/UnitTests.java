@@ -30,6 +30,7 @@ import co.com.ceiba.adnceibaparking.services.VehicleService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -161,7 +162,7 @@ public class UnitTests {
     }
 
     @Test
-    public void testDeleteVehicleSucessfully() throws ParseException {
+    public void testDeleteMotorcycleSucessfully() throws ParseException {
         // Arrange
         Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
 
@@ -171,6 +172,139 @@ public class UnitTests {
 
         // Assert
         assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
+    }
+
+    @Test
+    public void testDeleteCarSucessfully() throws ParseException {
+        // Arrange
+        Vehicle vehicle = new Vehicle(1,"TTT678","Eduardo López",750,"08/01/2019 08:03:38","Carro");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
+    }
+
+    @Test
+    public void testGet500InPaymentBillMotorycleWhenIsOneHour() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -1);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",100, dateIn,"Moto");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 500.0);
+    }
+
+    @Test
+    public void testGet1000InPaymentBillCarWhenIsOneHour() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -1);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0, dateIn,"Carro");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 1000.0);
+    }
+
+    @Test
+    public void testGet2500InPaymentBillMotorycleWhenIsOneHourAndIsHighCylinder() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -1);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750, dateIn,"Moto");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 2500.0);
+    }
+
+    @Test
+    public void testGet6000InPaymentBillMotorycleWhenIsOneDayAndIsHighCylinder() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -20);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750, dateIn,"Moto");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 6000.0);
+    }
+
+    @Test
+    public void testGet8000InPaymentBillCarWhenIsOneDay() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -20);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0, dateIn,"Carro");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 8000.0);
+    }
+
+    @Test
+    public void testGet8000InPaymentBillMotorcycleWhenIsTwoDay() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -48);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",100, dateIn,"Moto");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 8000.0);
+    }
+
+    @Test
+    public void testGet1000InPaymentBillMotorcycleWhenIsTwoDayAndIsHighCylinder() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -48);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750, dateIn,"Moto");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 10000.0);
+    }
+
+    @Test
+    public void testGet1000InPaymentBillCarWhenIsTwoDay() throws ParseException {
+        // Arrange
+        Date date = DateConverter.addOrSubtractHoursToDate(new Date(), -48);
+        String dateIn = DateConverter.convertDateToString(date);
+        Vehicle vehicle = new Vehicle(1,"ABC123","Eduardo López",0, dateIn,"Carro");
+
+        // Act
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        // Assert
+        assertEquals(response.getData(), 16000.0);
     }
 
     @Test
@@ -238,6 +372,18 @@ public class UnitTests {
 
         // Assert
         assertEquals(number, 1.0, 1);
+    }
+
+    @Test
+    public void testShouldConvertDateAndReturnString() {
+        // Arrange
+        Date date = new Date();
+
+        // Act
+        String string  = DateConverter.convertDateToString(date);
+
+        // Assert
+        assertNotNull(string);
     }
 
     @Test
