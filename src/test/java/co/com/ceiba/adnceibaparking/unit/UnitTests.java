@@ -136,6 +136,20 @@ public class UnitTests {
     }
 
     @Test
+    public void testValidateCodeTypeVehicleIsFound() {
+        // Arrange
+        String codeExpected = "1";
+        TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
+
+        // Act
+        when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(typeVehicle);
+        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+
+        // Assert
+        assertEquals(codeExpected, typeVehicle.getCode());
+    }
+
+    @Test
     public void testDeleteTypeVehicleFailedBecauseNoExists() {
 
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
@@ -391,14 +405,22 @@ public class UnitTests {
         String plate = "AAA123";
 
         // Act
-        boolean cannot = vehicleService.vehicleCanPark(plate);
+        boolean can = vehicleService.vehicleCanPark(plate);
 
         // Assert
-        if (DateConverter.getCurrentDayOfWeek() == Constants.SUNDAY || DateConverter.getCurrentDayOfWeek() == Constants.MONDAY) {
-            assertTrue(cannot);
-        } else {
-            assertFalse(cannot);
-        }
+        assertFalse(can);
+    }
+
+    @Test
+    public void testShouldReturnVehicleCanParkInMondayAndSunday() {
+        // Arrange
+        String plate = "BAA123";
+
+        // Act
+        boolean can = vehicleService.vehicleCanPark(plate);
+
+        // Assert
+        assertTrue(can);
     }
 
     @Test
