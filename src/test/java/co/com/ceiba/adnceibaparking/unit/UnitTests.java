@@ -137,7 +137,7 @@ public class UnitTests {
 
     @Test
     public void testDeleteTypeVehicleFailedBecauseNoExists() {
-        
+
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
 
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(null);
