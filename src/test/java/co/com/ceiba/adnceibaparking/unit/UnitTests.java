@@ -30,7 +30,6 @@ import co.com.ceiba.adnceibaparking.services.VehicleService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -586,6 +585,41 @@ public class UnitTests {
 
         // Assert
         assertNotNull(date);
+    }
+
+    @Test
+    public void testShouldGetVehicleOwner() {
+        String nameExpected = "Eduardo López";
+        Vehicle vehicle = new Vehicle(2,"EXT333","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        String owner = vehicle.getOwner();
+
+        // Assert
+        assertEquals(nameExpected, owner);
+    }
+
+    @Test
+    public void testShouldGetVehicleTypeVehicleCode() {
+        int codeExpected = 2;
+        Vehicle vehicle = new Vehicle(2,"EXT333","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        // Act
+        int typeCode = vehicle.getTypeVehicleCode();
+
+        // Assert
+        assertEquals(codeExpected, typeCode);
+    }
+
+    @Test
+    public void testShouldGetVehicleType() {
+        String  typeExpected = "Carro";
+        TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
+        // Act
+        String typeCode = typeVehicle.getType();
+
+        // Assert
+        assertEquals(typeExpected, typeCode);
     }
 
 
