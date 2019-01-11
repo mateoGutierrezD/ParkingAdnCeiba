@@ -136,13 +136,34 @@ public class UnitTests {
     }
 
     @Test
-    public void testDeleteVehicleFailedBecauseNoExists() {
+    public void testDeleteTypeVehicleFailedBecauseNoExists() {
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
 
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(null);
         Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
 
         assertEquals(response.getMessage(), Constants.VEHICLE_TYPE_NOT_EXISTS);
+    }
+
+    @Test
+    public void testDeleteVehicleFailedBecauseIsNotInParking() throws ParseException {
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(null);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        assertEquals(response.getMessage(), Constants.VEHICLE_NOT_IN_PARKING);
+
+    }
+
+    @Test
+    public void testDeleteVehicleSucessfully() throws ParseException {
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
+
+        when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
+        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+
+        assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
     }
 
     @Test
@@ -167,15 +188,7 @@ public class UnitTests {
     @Test
     public void testShouldAddExtraPaymentToHighCylinderVehicle() {
         // Arrange
-        Vehicle vehicle = new Vehicle(
-
-                2,
-                "ABC123",
-                "Eduardo López",
-                750,
-                "08/01/2019 08:03:38",
-                "Moto"
-        );
+        Vehicle vehicle = new Vehicle(2,"ABC123","Eduardo López",750,"08/01/2019 08:03:38","Moto");
 
         // Act
         boolean response = vehicleService.validateCylinder(vehicle.getCylinder());
