@@ -55,7 +55,6 @@ public class UnitTests {
     TypeVehicleRepository typeVehicleRepository;
 
     // TEST CASES
-
     @Test
     public void testShouldListVehicles() {
         // Arrange
