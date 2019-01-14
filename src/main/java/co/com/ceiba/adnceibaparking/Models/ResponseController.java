@@ -1,20 +1,20 @@
 package co.com.ceiba.adnceibaparking.Models;
 
-public class Response<T> {
+public class ResponseController<T> {
 
     private String message;
     private T data;
 
-    public Response(String message, T data) {
+    public ResponseController(String message, T data) {
         this.message = message;
         this.data = data;
     }
 
-    public Response(String message) {
+    public ResponseController(String message) {
         this.message = message;
     }
 
-    public Response(T data) {
+    public ResponseController(T data) {
         this.data = data;
     }
 

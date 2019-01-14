@@ -1,7 +1,7 @@
 package co.com.ceiba.adnceibaparking.controllers;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
-import co.com.ceiba.adnceibaparking.Models.Response;
+import co.com.ceiba.adnceibaparking.Models.ResponseController;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
 import co.com.ceiba.adnceibaparking.exceptions.GeneralException;
 import co.com.ceiba.adnceibaparking.services.VehicleService;
@@ -22,18 +22,18 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/vehicle/allRegisteredVehicles", method=RequestMethod.GET)
-    public Response<List<Vehicle>> listVehicles(){
+    public ResponseController<List<Vehicle>> listVehicles(){
         return vehicleService.getAllVehicles();
     }
 
     @RequestMapping(value = "/vehicle/register", method=RequestMethod.POST)
-    public ResponseEntity<Response<Vehicle>> insert(@RequestBody Vehicle vehicle) throws GeneralException {
+    public ResponseEntity<ResponseController<Vehicle>> insert(@RequestBody Vehicle vehicle) throws GeneralException {
         vehicleService.registerVehicle(vehicle);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<Vehicle>(Constants.VEHICLE_ENTERED));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseController<Vehicle>(Constants.VEHICLE_ENTERED));
     }
 
     @RequestMapping(value = "/vehicle/delete", method=RequestMethod.DELETE)
-    public Response<Object> delete(@RequestParam(value="plate") String plate) throws ParseException {
+    public ResponseController<Object> delete(@RequestParam(value="plate") String plate) throws ParseException {
         return vehicleService.deleteVehicle(plate);
     }
 }

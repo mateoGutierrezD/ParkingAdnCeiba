@@ -1,6 +1,6 @@
 package co.com.ceiba.adnceibaparking.controllers;
 
-import co.com.ceiba.adnceibaparking.Models.Response;
+import co.com.ceiba.adnceibaparking.Models.ResponseController;
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import co.com.ceiba.adnceibaparking.services.TypeVehicleService;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +17,17 @@ public class TypeVehicleController {
     }
 
     @RequestMapping(value = "/typeVehicles/all", method=RequestMethod.GET)
-    public Response<List<TypeVehicle>> listTypeVehicles(){
+    public ResponseController<List<TypeVehicle>> listTypeVehicles(){
         return typeVehicleService.getAllVehicleTypes();
     }
 
     @RequestMapping(value = "/typeVehicles/register", method=RequestMethod.POST)
-    public Response<List<TypeVehicle>> insert(@RequestBody TypeVehicle typeVehicle) {
+    public ResponseController<List<TypeVehicle>> insert(@RequestBody TypeVehicle typeVehicle) {
         return typeVehicleService.registerTypeVehicle(typeVehicle);
     }
 
     @RequestMapping(value = "/typeVehicles/delete", method=RequestMethod.DELETE)
-    public Response<Object> delete(@RequestParam(value="code") String code) {
+    public ResponseController<Object> delete(@RequestParam(value="code") String code) {
         return this.typeVehicleService.deleteTypeVehicle(code);
     }
 }

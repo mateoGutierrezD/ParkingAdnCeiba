@@ -1,7 +1,7 @@
 package co.com.ceiba.adnceibaparking.services;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
-import co.com.ceiba.adnceibaparking.Models.Response;
+import co.com.ceiba.adnceibaparking.Models.ResponseController;
 import co.com.ceiba.adnceibaparking.Models.TypeVehicle;
 import co.com.ceiba.adnceibaparking.repositories.TypeVehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +15,31 @@ public class TypeVehicleService {
     @Autowired
     TypeVehicleRepository typeVehicleRepository;
 
-    public Response<List<TypeVehicle>> getAllVehicleTypes() {
+    public ResponseController<List<TypeVehicle>> getAllVehicleTypes() {
         List<TypeVehicle> typeVehicleList = typeVehicleRepository.findAll();
 
         if(typeVehicleList.size() < 1) {
-            return new Response<List<TypeVehicle>>(Constants.NO_VEHICLE_TYPES_REGISTERED);
+            return new ResponseController<List<TypeVehicle>>(Constants.NO_VEHICLE_TYPES_REGISTERED);
         } else {
-            return new Response<List<TypeVehicle>>(typeVehicleList);
+            return new ResponseController<List<TypeVehicle>>(typeVehicleList);
         }
     }
 
-    public Response<List<TypeVehicle>> registerTypeVehicle(TypeVehicle typeVehicle){
+    public ResponseController<List<TypeVehicle>> registerTypeVehicle(TypeVehicle typeVehicle){
         this.typeVehicleRepository.insert(typeVehicle);
-        return new Response<List<TypeVehicle>>(Constants.SUCCESS);
+        return new ResponseController<List<TypeVehicle>>(Constants.SUCCESS);
     }
 
-    public Response<Object> deleteTypeVehicle(String code){
+    public ResponseController<Object> deleteTypeVehicle(String code){
         TypeVehicle typeVehicle = this.typeVehicleRepository.findByCode(code);
 
         if(typeVehicle != null){
             String codeFound = typeVehicle.getCode();
             if(codeFound.equals(code)) {
                 this.typeVehicleRepository.delete(typeVehicle);
-                return new Response<Object>(Constants.VEHICLE_TYPES_DELETED);
+                return new ResponseController<Object>(Constants.VEHICLE_TYPES_DELETED);
             }
         }
-        return new Response<Object>(Constants.VEHICLE_TYPE_NOT_EXISTS);
+        return new ResponseController<Object>(Constants.VEHICLE_TYPE_NOT_EXISTS);
     }
 }

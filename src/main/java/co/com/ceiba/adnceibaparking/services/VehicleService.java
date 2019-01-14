@@ -5,7 +5,7 @@ import co.com.ceiba.adnceibaparking.exceptions.NumberMaxVehicles;
 import co.com.ceiba.adnceibaparking.exceptions.PlateForDay;
 import co.com.ceiba.adnceibaparking.exceptions.VehicleRegisteredPreviously;
 import co.com.ceiba.adnceibaparking.Models.Constants;
-import co.com.ceiba.adnceibaparking.Models.Response;
+import co.com.ceiba.adnceibaparking.Models.ResponseController;
 
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
 import co.com.ceiba.adnceibaparking.repositories.VehicleRepository;
@@ -30,17 +30,17 @@ public class VehicleService {
     Date today;
 
 
-    public Response<List<Vehicle>> getAllVehicles() {
+    public ResponseController<List<Vehicle>> getAllVehicles() {
         List<Vehicle> vehicleList = vehicleRepository.findAll();
 
         if(vehicleList.isEmpty()) {
-            return new Response<List<Vehicle>>(Constants.NO_VEHICLES_IN_PARKING);
+            return new ResponseController<List<Vehicle>>(Constants.NO_VEHICLES_IN_PARKING);
         } else {
-            return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
+            return new ResponseController<List<Vehicle>>(Constants.SUCCESS, vehicleList);
         }
     }
 
-    public Response<List<Vehicle>> registerVehicle(Vehicle vehicle) throws GeneralException {
+    public ResponseController<List<Vehicle>> registerVehicle(Vehicle vehicle) throws GeneralException {
         List<Vehicle> VehicleList = vehicleRepository.findAllByTypeVehicleDescription(vehicle.getTypeVehicleDescription());
         int numberOfVehicles = VehicleList.size();
 
@@ -58,7 +58,7 @@ public class VehicleService {
 
         vehicle.setDateIn(DateConverter.getCurrentDate());
         this.vehicleRepository.insert(vehicle);
-        return new Response<List<Vehicle>>(Constants.SUCCESS);
+        return new ResponseController<List<Vehicle>>(Constants.SUCCESS);
     }
 
     public boolean maxCapacity(String typeVehicle, int numberOfVehicles) {
@@ -98,7 +98,7 @@ public class VehicleService {
         return false;
     }
 
-    public Response<Object> deleteVehicle(String plate) throws ParseException{
+    public ResponseController<Object> deleteVehicle(String plate) throws ParseException{
         double valueToPay = 0;
         Vehicle vehicle = this.vehicleRepository.findByPlate(plate);
         if(vehicle != null){
@@ -119,10 +119,10 @@ public class VehicleService {
                 this.vehicleRepository.delete(vehicle);
                 value = (int)valueToPay;
 
-                return new Response<Object>(Constants.VEHICLE_DELETED, value);
+                return new ResponseController<Object>(Constants.VEHICLE_DELETED, value);
             }
         }
-        return new Response<Object>(Constants.VEHICLE_NOT_IN_PARKING);
+        return new ResponseController<Object>(Constants.VEHICLE_NOT_IN_PARKING);
     }
 
     public double calculateCarPaymentBill(Vehicle vehicle) throws ParseException{

@@ -21,7 +21,7 @@ import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import co.com.ceiba.adnceibaparking.Models.Constants;
-import co.com.ceiba.adnceibaparking.Models.Response;
+import co.com.ceiba.adnceibaparking.Models.ResponseController;
 import co.com.ceiba.adnceibaparking.Models.Vehicle;
 import co.com.ceiba.adnceibaparking.repositories.TypeVehicleRepository;
 import co.com.ceiba.adnceibaparking.repositories.VehicleRepository;
@@ -63,10 +63,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findAll()).thenReturn(vehicles);
-        Response<List<Vehicle>> response = vehicleService.getAllVehicles();
+        ResponseController<List<Vehicle>> responseController = vehicleService.getAllVehicles();
 
         // Assert
-        assertFalse(response.getData().isEmpty());
+        assertFalse(responseController.getData().isEmpty());
     }
 
     @Test
@@ -76,10 +76,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findAll()).thenReturn(vehicles);
-        Response<List<Vehicle>> response = vehicleService.getAllVehicles();
+        ResponseController<List<Vehicle>> responseController = vehicleService.getAllVehicles();
 
         // Assert
-        assertEquals(response.getMessage(), Constants.NO_VEHICLES_IN_PARKING);
+        assertEquals(responseController.getMessage(), Constants.NO_VEHICLES_IN_PARKING);
     }
 
     @Test
@@ -90,10 +90,10 @@ public class UnitTests {
 
         // Act
         when(typeVehicleRepository.findAll()).thenReturn(typeVehicles);
-        Response<List<TypeVehicle>> response = typeVehicleService.getAllVehicleTypes();
+        ResponseController<List<TypeVehicle>> responseController = typeVehicleService.getAllVehicleTypes();
 
         // Assert
-        assertFalse(response.getData().isEmpty());
+        assertFalse(responseController.getData().isEmpty());
     }
 
     @Test
@@ -103,10 +103,10 @@ public class UnitTests {
 
         // Act
         when(typeVehicleRepository.findAll()).thenReturn(typeVehicles);
-        Response<List<TypeVehicle>> response = typeVehicleService.getAllVehicleTypes();
+        ResponseController<List<TypeVehicle>> responseController = typeVehicleService.getAllVehicleTypes();
 
         // Assert
-        assertEquals(response.getMessage(), Constants.NO_VEHICLE_TYPES_REGISTERED);
+        assertEquals(responseController.getMessage(), Constants.NO_VEHICLE_TYPES_REGISTERED);
     }
 
     @Test
@@ -117,8 +117,8 @@ public class UnitTests {
 
         // Act
         when(typeVehicleRepository.insert(typeVehicle)).thenReturn(typeVehicle);
-        Response<List<TypeVehicle>> response = typeVehicleService.registerTypeVehicle(typeVehicle);
-        String message = response.getMessage();
+        ResponseController<List<TypeVehicle>> responseController = typeVehicleService.registerTypeVehicle(typeVehicle);
+        String message = responseController.getMessage();
 
         // Assert
         assertEquals(message, expected);
@@ -129,9 +129,9 @@ public class UnitTests {
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
 
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(typeVehicle);
-        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+        ResponseController<Object> responseController = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
 
-        assertEquals(response.getMessage(), Constants.VEHICLE_TYPES_DELETED);
+        assertEquals(responseController.getMessage(), Constants.VEHICLE_TYPES_DELETED);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class UnitTests {
 
         // Act
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(typeVehicle);
-        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+        ResponseController<Object> responseController = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
 
         // Assert
         assertEquals(codeExpected, typeVehicle.getCode());
@@ -154,9 +154,9 @@ public class UnitTests {
         TypeVehicle typeVehicle = new TypeVehicle("1","Carro");
 
         when(typeVehicleRepository.findByCode(typeVehicle.getCode())).thenReturn(null);
-        Response<Object> response = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
+        ResponseController<Object> responseController = typeVehicleService.deleteTypeVehicle(typeVehicle.getCode());
 
-        assertEquals(response.getMessage(), Constants.VEHICLE_TYPE_NOT_EXISTS);
+        assertEquals(responseController.getMessage(), Constants.VEHICLE_TYPE_NOT_EXISTS);
     }
 
     @Test
@@ -166,10 +166,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(null);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getMessage(), Constants.VEHICLE_NOT_IN_PARKING);
+        assertEquals(responseController.getMessage(), Constants.VEHICLE_NOT_IN_PARKING);
 
     }
 
@@ -180,10 +180,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
+        assertEquals(responseController.getMessage(), Constants.VEHICLE_DELETED);
     }
 
     @Test
@@ -193,10 +193,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getMessage(), Constants.VEHICLE_DELETED);
+        assertEquals(responseController.getMessage(), Constants.VEHICLE_DELETED);
     }
 
     @Test
@@ -208,10 +208,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 500.0);
+        assertEquals(responseController.getData(), 500.0);
     }
 
     @Test
@@ -223,10 +223,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 1000.0);
+        assertEquals(responseController.getData(), 1000.0);
     }
 
     @Test
@@ -238,10 +238,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 2500.0);
+        assertEquals(responseController.getData(), 2500.0);
     }
 
     @Test
@@ -253,10 +253,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 6000.0);
+        assertEquals(responseController.getData(), 6000.0);
     }
 
     @Test
@@ -268,10 +268,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 8000.0);
+        assertEquals(responseController.getData(), 8000.0);
     }
 
     @Test
@@ -283,10 +283,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 8000.0);
+        assertEquals(responseController.getData(), 8000.0);
     }
 
     @Test
@@ -298,10 +298,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 10000.0);
+        assertEquals(responseController.getData(), 10000.0);
     }
 
     @Test
@@ -313,10 +313,10 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.findByPlate(vehicle.getPlate())).thenReturn(vehicle);
-        Response<Object> response = vehicleService.deleteVehicle(vehicle.getPlate());
+        ResponseController<Object> responseController = vehicleService.deleteVehicle(vehicle.getPlate());
 
         // Assert
-        assertEquals(response.getData(), 16000.0);
+        assertEquals(responseController.getData(), 16000.0);
     }
 
     @Test
@@ -514,8 +514,8 @@ public class UnitTests {
 
         // Act
         when(vehicleRepository.insert(vehicle)).thenReturn(vehicle);
-        Response<List<Vehicle>> response = vehicleService.registerVehicle(vehicle);
-        String message = response.getMessage();
+        ResponseController<List<Vehicle>> responseController = vehicleService.registerVehicle(vehicle);
+        String message = responseController.getMessage();
 
         // Assert
         assertEquals(message, expected);
@@ -644,14 +644,14 @@ public class UnitTests {
     }
 
 
-    static Response<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
+    static ResponseController<List<Vehicle>> getVehicles(List<Vehicle> vehicleList) {
         vehicleList.add(new Vehicle(1,"EXT567","Eduardo López",0,"09/01/2019 18:03:38","Carro"));
         vehicleList.add(new Vehicle(2,"III999","Pepe Cabral",750,"08/01/2019 08:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"QQQ111","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
-        return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
+        return new ResponseController<List<Vehicle>>(Constants.SUCCESS, vehicleList);
     }
 
-    static Response<List<Vehicle>> getListVehiclesWithFullCapacity(List<Vehicle> vehicleList) {
+    static ResponseController<List<Vehicle>> getListVehiclesWithFullCapacity(List<Vehicle> vehicleList) {
         vehicleList.add(new Vehicle(2,"1","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"2","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"3","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
@@ -662,13 +662,13 @@ public class UnitTests {
         vehicleList.add(new Vehicle(2,"8","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"9","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
         vehicleList.add(new Vehicle(2,"10","Ramiro Castrillón",100,"09/01/2019 15:03:38","Moto"));
-        return new Response<List<Vehicle>>(Constants.SUCCESS, vehicleList);
+        return new ResponseController<List<Vehicle>>(Constants.SUCCESS, vehicleList);
     }
 
-    static Response<List<TypeVehicle>> getTypeVehicles(List<TypeVehicle> typeVehicleList) {
+    static ResponseController<List<TypeVehicle>> getTypeVehicles(List<TypeVehicle> typeVehicleList) {
         typeVehicleList.add(new TypeVehicle("1","Carro"));
         typeVehicleList.add(new TypeVehicle("2","Moto"));
-        return new Response<List<TypeVehicle>>(Constants.SUCCESS, typeVehicleList);
+        return new ResponseController<List<TypeVehicle>>(Constants.SUCCESS, typeVehicleList);
     }
 
 }
